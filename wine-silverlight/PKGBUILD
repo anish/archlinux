@@ -1,0 +1,225 @@
+# Maintainer: Jesus Alvarez <jeezusjr@gmail.com>
+# Contributor: sxe <sxxe@gmx.de>
+# Based on the wine package in the community repository
+
+pkgname=wine-silverlight
+pkgver=1.7.0
+pkgrel=2
+pkgdesc="WINE patched with Microsoft Silverlight and Netflix compatibility."
+url="http://www.winehq.com"
+license=('LGPL')
+arch=('x86_64' 'i686')
+install=wine-silverlight.install
+
+source=("http://prdownloads.sourceforge.net/wine/wine-${pkgver}.tar.bz2"
+        "0001-server-Create-directories-with-the-specified-securit.patch"
+        "0002-server-Store-and-return-security-attributes-with-ext.patch"
+        "0003-ntdll-Inherit-security-attributes-from-parent-direct.patch"
+        "0004-ws2_32-Implement-SIO_ADDRESS_LIST_CHANGE-with-Notify.patch"
+        "0005-user32-SetTimer-should-respect-the-minimum-and-maxim.patch"
+        "0006-fix-is-blocking.patch")
+
+md5sums=('24789490809ddb5db5286819b3fdfed5'
+         '29a5aad52df78fd9d28c378a1b1e5ce0'
+         '43d5e827e0980cbe5cb1f7f4e38b634b'
+         '643b71c94d15c8e56b136cc3fcdd725d'
+         '8c2be3b5b799c8f5a2c10a0b3fed58fd'
+         '9f4f90c46e5f1f63093b9d9bc1205d13'
+         '98093c88ae3bdb8743711be07cd28f03')
+
+conflicts=('wine')
+provides=('wine=${pkgver}')
+
+depends=('fontconfig'
+         'libxcursor'
+         'libxrandr'
+         'libxdamage'
+         'libxi'
+         'gettext'
+         'glu'
+         'libsm'
+         'gcc-libs'
+         'desktop-file-utils')
+
+makedepends=('mesa-libgl'
+             'autoconf'
+             'ncurses'
+             'bison'
+             'perl'
+             'fontforge'
+             'flex'
+             'prelink'
+             'gcc>=4.5.0-2'
+             'giflib'
+             'libpng'
+             'gnutls'
+             'libxinerama'
+             'libxcomposite'
+             'libxmu'
+             'libxxf86vm'
+             'libxml2'
+             'libldap'
+             'lcms'
+             'mpg123'
+             'openal'
+             'v4l-utils'
+             'alsa-lib'
+             'samba')
+
+optdepends=('giflib'
+            'libpng'
+            'libldap'
+            'gnutls'
+            'lcms'
+            'libxml2'
+            'mpg123'
+            'openal'
+            'v4l-utils'
+            'libpulse'
+            'alsa-plugins'
+            'alsa-lib'
+            'libjpeg-turbo'
+            'libxcomposite'
+            'oss'
+            'cups'
+            'samba')
+
+if [[ $CARCH == x86_64 ]]; then
+
+  depends=('lib32-fontconfig'
+           'lib32-libxcursor'
+           'lib32-libxrandr'
+           'lib32-libxdamage'
+           'lib32-libxi'
+           'lib32-gettext'
+           'lib32-glu'
+           'lib32-gcc-libs'
+           'desktop-file-utils')
+
+  makedepends=('autoconf'
+               'ncurses'
+               'bison'
+               'perl'
+               'fontforge'
+               'flex'
+               'prelink'
+               'gcc-multilib>=4.5.0-2'
+               'lib32-giflib'
+               'lib32-libpng'
+               'lib32-gnutls'
+               'lib32-libxinerama'
+               'lib32-libxcomposite'
+               'lib32-libxmu'
+               'lib32-libxxf86vm'
+               'lib32-libxml2'
+               'lib32-libldap'
+               'lib32-lcms'
+               'lib32-mpg123'
+               'lib32-openal'
+               'lib32-v4l-utils'
+               'lib32-alsa-lib'
+               'lib32-libgl'
+               'samba')
+
+  optdepends=('lib32-giflib'
+              'lib32-libpng'
+              'lib32-libldap'
+              'lib32-gnutls'
+              'lib32-lcms'
+              'lib32-libxml2'
+              'lib32-mpg123'
+              'lib32-openal'
+              'lib32-v4l-utils'
+              'lib32-libpulse'
+              'lib32-alsa-plugins'
+              'lib32-alsa-lib'
+              'lib32-libjpeg-turbo'
+              'lib32-libxcomposite'
+              'oss'
+              'cups'
+              'samba')
+
+fi
+
+_upname="wine-${pkgver}"
+
+build() {
+  cd "$srcdir"
+
+  # Get rid of old build dirs
+  rm -rf $pkgname-{32,64}-build
+  mkdir $pkgname-32-build
+
+  # These additional CFLAGS solve FS#27662
+  #export CFLAGS="${CFLAGS/-D_FORTIFY_SOURCE=2/} -D_FORTIFY_SOURCE=0"
+  #export CXXFLAGS="${CFLAGS/-D_FORTIFY_SOURCE=2/} -D_FORTIFY_SOURCE=0"
+
+  cd "$srcdir"/"${_upname}"
+
+  patch -p1 < ../0001-server-Create-directories-with-the-specified-securit.patch
+  patch -p1 < ../0002-server-Store-and-return-security-attributes-with-ext.patch
+  patch -p1 < ../0003-ntdll-Inherit-security-attributes-from-parent-direct.patch
+  patch -p1 < ../0004-ws2_32-Implement-SIO_ADDRESS_LIST_CHANGE-with-Notify.patch
+#  patch -p1 < ../0005-user32-SetTimer-should-respect-the-minimum-and-maxim.patch
+  patch -p0 < ../0006-fix-is-blocking.patch
+
+  autoreconf
+
+  cd "$srcdir"
+
+  if [[ $CARCH == x86_64 ]]; then
+
+    msg2 "Building Wine-64..."
+    mkdir $pkgname-64-build
+    cd "$srcdir/$pkgname-64-build"
+    ../$_upname/configure \
+      --prefix=/usr \
+      --libdir=/usr/lib \
+      --with-x \
+      --enable-win64
+    make
+
+    _wine32opts=(
+      --libdir=/usr/lib32
+      --with-wine64="$srcdir/$pkgname-64-build"
+    )
+
+    export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+  fi
+
+  msg2 "Building Wine-32..."
+  cd "$srcdir/$pkgname-32-build"
+  ../$_upname/configure \
+    --prefix=/usr \
+    --with-x \
+    "${_wine32opts[@]}"
+
+  # These additional CFLAGS solve FS#27560 and FS#23277
+  make CFLAGS+="-mstackrealign -mincoming-stack-boundary=2" CXXFLAGS+="-mstackrealign -mincoming-stack-boundary=2"
+}
+
+package() {
+  msg2 "Packaging Wine-32..."
+  cd "$srcdir/$pkgname-32-build"
+
+  if [[ $CARCH == i686 ]]; then
+    make prefix="$pkgdir/usr" install
+  else
+    make prefix="$pkgdir/usr" \
+      libdir="$pkgdir/usr/lib32" \
+      dlldir="$pkgdir/usr/lib32/wine" install
+
+    msg2 "Packaging Wine-64..."
+    cd "$srcdir/$pkgname-64-build"
+    make prefix="$pkgdir/usr" \
+      libdir="$pkgdir/usr/lib" \
+      dlldir="$pkgdir/usr/lib/wine" install
+  fi
+
+  # Font aliasing settings for Win32 applications
+  #install -d "$pkgdir"/etc/fonts/conf.{avail,d}
+  #install -m644 "$srcdir/30-win32-aliases.conf" "$pkgdir/etc/fonts/conf.avail"
+  #ln -s ../conf.avail/30-win32-aliases.conf "$pkgdir/etc/fonts/conf.d/30-win32-aliases.conf"
+
+}
+# vim:set ts=2 sw=2 tw=0 et:

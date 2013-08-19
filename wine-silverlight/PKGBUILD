@@ -234,9 +234,9 @@ package() {
   if [[ $CARCH == i686 ]]; then
     make prefix="$pkgdir/$_prefix" install
   else
-    make prefix="$pkgdir/usr" \
-      libdir="$pkgdir/usr/lib32" \
-      dlldir="$pkgdir/usr/lib32/wine" install
+    make prefix="$pkgdir/$_prefix" \
+      libdir="$pkgdir/$_prefix/lib32" \
+      dlldir="$pkgdir/$_prefix/lib32/wine" install
 
     msg2 "Packaging Wine-64..."
     cd "$srcdir/$pkgname-64-build"

@@ -30,9 +30,10 @@ _prefix=/usr
 #change this if your wine-silverlight is installed elsewhere, or if you prefer a different wine directory
 _wine=/usr
 _wineprefix=.wine
+_srcdir=`tar tf v0.$pkgver.tar.bz2 | head -n 1`
 
 prepare() {
-  pushd `tar tf v0.$pkgver.tar.bz2 | head -n 1`
+  pushd $_srcdir
   pushd src/windows
   sed -i '2 a\ CXXFLAGS        := -static-libgcc -static-libstdc++ $(CXXFLAGS)' Makefile
   popd
@@ -60,14 +61,14 @@ prepare() {
 }
 
 build() {
-  pushd `tar tf v0.$pkgver.tar.bz2 | head -n 1`
+  pushd $_srcdir
   ./configure --prefix=$_prefix
   make
   popd
 }
 
 package() {
-  pushd `tar tf v0.$pkgver.tar.bz2 | head -n 1`
+  pushd $_srcdir
   make PREFIX=$_prefix DESTDIR="$pkgdir" install
   popd
   cp ${srcdir}/wine-silverlight5.1-installer.exe ${pkgdir}/$_prefix/share/pipelight/.

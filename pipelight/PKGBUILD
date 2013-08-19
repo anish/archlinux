@@ -2,7 +2,7 @@
 
 pkgname='pipelight'
 pkgver=1
-pkgrel=4
+pkgrel=5
 pkgdesc="A browser plugin which allows one to use windows only plugins inside Linux browser"
 url="https://launchpad.net/pipelight"
 arch=('i686' 'x86_64')
@@ -31,13 +31,13 @@ _prefix=/usr
 _wine=/usr
 _wineprefix=.wine
 
-build() {
+prepare() {
   pushd `tar tf v0.$pkgver.tar.bz2 | head -n 1`
-  sed -i '2 a\ CXXFLAGS        := -static-libgcc -static-libstdc++ $(CXXFLAGS)' src/windows/Makefile
-  ./configure --prefix=$_prefix
-  make
+  pushd src/windows
+  sed -i '2 a\ CXXFLAGS        := -static-libgcc -static-libstdc++ $(CXXFLAGS)' Makefile
+  popd
   pushd share
-  sed -i "s|/opt/wine-compholio|$_wine|g" pipelight 
+  sed -i "s|/opt/wine-compholio|$_wine|g" pipelight
   sed -i "s|PLUGIN_LOADER_PATH|$_prefix/share/pipelight/pluginloader.exe|g" pipelight
   sed -i 's|true|false|g' pipelight
   if [[ "$CARCH" == "x86_64" ]]; then
@@ -56,6 +56,13 @@ build() {
   if [[ "$CARCH" == "x86_64" ]]; then
     sed -i 's|Files|Files (x86)|g' wine-silverlight5.1-installer.install-script
   fi
+  popd
+}
+
+build() {
+  pushd `tar tf v0.$pkgver.tar.bz2 | head -n 1`
+  ./configure --prefix=$_prefix
+  make
   popd
 }
 

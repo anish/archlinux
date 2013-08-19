@@ -15,7 +15,7 @@ else
 makedepends=('mingw32-gcc')
 fi
 
-source=("https://bitbucket.org/mmueller2012/pipelight/get/v0.1.tar.bz2"
+source=("https://bitbucket.org/mmueller2012/pipelight/get/v0.$pkgver.tar.bz2"
   "wine-silverlight5.1-installer.exe::http://silverlight.dlservice.microsoft.com/download/B/3/C/B3CF6815-40B1-4E36-8746-C4A0381AD260/20513.00/runtime/Silverlight.exe"
   "wine-silverlight5.1-installer.install-script")
 
@@ -32,7 +32,7 @@ _wine=/usr
 _wineprefix=.wine
 
 build() {
-  pushd `tar tf master.tar.gz | head -n 1`
+  pushd `tar tf v0.$pkgver.tar.bz2 | head -n 1`
   sed -i '2 a\ CXXFLAGS        := -static-libgcc -static-libstdc++ $(CXXFLAGS)' src/windows/Makefile
   ./configure --prefix=$_prefix
   make
@@ -60,7 +60,7 @@ build() {
 }
 
 package() {
-  pushd `tar tf master.tar.gz | head -n 1`
+  pushd `tar tf v0.$pkgver.tar.bz2 | head -n 1`
   make PREFIX=$_prefix DESTDIR="$pkgdir" install
   popd
   cp ${srcdir}/wine-silverlight5.1-installer.exe ${pkgdir}/$_prefix/share/pipelight/.

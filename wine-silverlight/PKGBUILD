@@ -156,6 +156,7 @@ if [[ $customprefix != 1 ]]; then
   conflicts=('wine')
   provides=('wine=${pkgver}')
 else
+  # change _prefix if you don't want to use the default custom prefix of /opt/wine-silverlight
   _prefix="opt/$pkgname"
   _sysconf="$_prefix/etc"
 fi

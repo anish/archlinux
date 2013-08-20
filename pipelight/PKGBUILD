@@ -3,7 +3,7 @@
 pkgname='pipelight'
 pkgver=1
 _relver=2-prerelease1
-pkgrel=9
+pkgrel=10
 pkgdesc="A browser plugin which allows one to use windows only plugins inside Linux browser"
 url="https://launchpad.net/pipelight"
 arch=('i686' 'x86_64')
@@ -59,10 +59,14 @@ prepare() {
   pushd share
   sed -i "4s|/opt/wine-compholio|$_wine|g" pipelight
   sed -i "s|PLUGIN_LOADER_PATH|$_prefix/share/pipelight/pluginloader.exe|g" pipelight
+
+  # embed bug fixed, this is no longer needed
   #sed -i '76s|true|false|g' pipelight
-  if [[ "$CARCH" == "x86_64" ]]; then
-    sed -i 's|Files|Files (x86)|g' pipelight
-  fi
+
+  #in case you want to use 64bit wine, you would need this
+  #if [[ "$CARCH" == "x86_64" ]]; then
+  #  sed -i 's|Files|Files (x86)|g' pipelight
+  #fi
 
   # this needs to change if you're using a custom prefix for wine-silverlight, will happen automatically if _wineprefix changed
   sed -i "9s|.wine-pipelight|$_wineprefix|g" pipelight

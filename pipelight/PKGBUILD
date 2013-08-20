@@ -7,7 +7,7 @@ pkgrel=10
 pkgdesc="A browser plugin which allows one to use windows only plugins inside Linux browser"
 url="https://launchpad.net/pipelight"
 arch=('i686' 'x86_64')
-license=('LGPL')
+license=('GPL2' 'LGPL2.1' 'MPL')
 
 depends=('wine-silverlight' 'ttf-ms-fonts' 'wget')
 

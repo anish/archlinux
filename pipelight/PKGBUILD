@@ -30,7 +30,7 @@ source=("https://bitbucket.org/mmueller2012/pipelight/get/v0.$pkgver-$_relver.ta
 md5sums=('dae174f866c3e602ff3e1c9217ce9f67'
          '8e5191954970b2eb513b9375be99a2d0'
          '971894515dd26a26175883031521d8b3'
-         'accbbd4d49d3c2e484703eb22d87a2bf')
+         '64988cd9c94de4df63253c8e31b4c210')
 
 install=pipelight.install
 

@@ -34,12 +34,14 @@ md5sums=('dae174f866c3e602ff3e1c9217ce9f67'
 
 install=pipelight.install
 
+_srcdir=mmueller2012-pipelight-afdc68a75e93
+
+#this changes the install location for the pipelight executables
 _prefix=/usr
 
 #change this if your wine-silverlight is installed elsewhere, or if you prefer a different wine directory
 _wine=/usr
 _wineprefix=.wine-pipelight
-_srcdir=mmueller2012-pipelight-afdc68a75e93
 
 prepare() {
   pushd $_srcdir

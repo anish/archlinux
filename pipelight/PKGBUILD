@@ -61,6 +61,7 @@ prepare() {
   sed -i "25s|/opt/wine-compholio|$_wine|g" pipelight
   sed -i "s|PLUGIN_LOADER_PATH|$_prefix/share/pipelight/pluginloader.exe|g" pipelight
   sed -i "s|wine-browser-installer|wine-silverlight|g" pipelight
+  sed -i "119s|wine-silverlight/install-dependency|pipelight/wine-silverlight5.1.installer|g" pipelight
 
   # embed bug fixed, this is no longer needed
   #sed -i '76s|true|false|g' pipelight

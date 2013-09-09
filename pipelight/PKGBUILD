@@ -40,7 +40,7 @@ md5sums=('ddc9a2d2c37e80353a0cd3eb9f6e29d0'
          '9f64f839b5de974581012a50bf4ea688'
          '971894515dd26a26175883031521d8b3'
          '366d44b9e0f667dec11f9bc16f31cc79'
-         '326d7c8c26b04194444a35738eea22fe')
+         '7f771fa96cd7776688d68814879e543b')
 
 install=pipelight.install
 

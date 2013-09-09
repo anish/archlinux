@@ -12,7 +12,7 @@ if [[ "$1" == *ilverligh* ]];then
 	if [ ! -d "${WINEPREFIX}" ]; then
         	${WINE} wineboot -i > /dev/null;
 	else
-		if [ -f ${WINEPREFIX}/installed ]; then
+		if [ -e ${WINEPREFIX}/installed ]; then
 			exit 0
 		fi
 	fi

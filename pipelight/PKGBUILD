@@ -1,10 +1,9 @@
 # Maintainer: Anish Bhatt anish [at] gatech [dot] edu
 
 pkgname='pipelight'
-pkgver=1
-_relver=4
-pkgrel=17
-#epoch=1
+pkgver=0.1.4
+pkgrel=1
+epoch=1
 pkgdesc="A browser plugin which allows one to use windows only plugins inside Linux browser"
 url="https://launchpad.net/pipelight"
 arch=('i686' 'x86_64')
@@ -30,8 +29,8 @@ fi
 
 makedepends+=('cabextract')
 
-source=("https://bitbucket.org/mmueller2012/pipelight/get/v0.$pkgver-$_relver.tar.bz2"
-  "https://launchpad.net/pipelight/trunk/0.1/+download/pluginloader-prebuilt-v0.$pkgver-$_relver.tar.gz")
+source=("https://bitbucket.org/mmueller2012/pipelight/get/v${pkgver%.*}-${pkgver##*.}.tar.bz2"
+  "https://launchpad.net/pipelight/trunk/0.1/+download/pluginloader-prebuilt-v${pkgver%.*}-${pkgver##*.}.tar.gz")
 
 md5sums=('cf8bbec066a7475bcf5b92310609b3c2'
          '65564d3e363d6be81c8f602133aa7afe')

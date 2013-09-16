@@ -11,9 +11,9 @@ license=('GPL2' 'LGPL2.1' 'MPL')
 
 depends=('wine-silverlight' 'wine-browser-installer' 'ttf-ms-fonts' 'wget')
 if  [[ "$CARCH" == "x86_64" ]]; then
-  depends+=('lib32-libsm')
+  depends+=('lib32-libsm' 'lib32-libgl')
 else
-  depends+=('libsm')
+  depends+=('libsm' 'libgl')
 fi
 
 # Set value to 1 if you want to compile pluginloader yourself

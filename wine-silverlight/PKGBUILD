@@ -5,7 +5,7 @@
 
 pkgname=wine-silverlight
 pkgver=1.7.4
-pkgrel=2
+pkgrel=3
 pkgdesc="WINE patched with Microsoft Silverlight and Netflix compatibility."
 url="http://www.winehq.com"
 license=('LGPL2.1')
@@ -209,8 +209,6 @@ build() {
   patch -p1 <../0012-winex11-Send-XEMBED_REQUEST_FOCUS-request-for-embedded.patch
   patch -p1 <../0013-winex11-Implement-additional-XEMBED_-events.patch
   patch -p1 <../0014-winex11-Update-gl_drawable-for-embedded-windows.patch
-  patch -p1 <../0015-winex11-Call-destroy_gl_drawable-before-destroying-the.patch
-  patch -p1 <../0016-winex11-Prevent-racecondition-and-sync-opengl-context-.patch
 
   autoreconf
 

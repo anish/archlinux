@@ -5,7 +5,7 @@
 
 pkgname=wine-silverlight
 pkgver=1.7.4
-pkgrel=1
+pkgrel=2
 pkgdesc="WINE patched with Microsoft Silverlight and Netflix compatibility."
 url="http://www.winehq.com"
 license=('LGPL2.1')
@@ -34,7 +34,7 @@ md5sums=('a1e78cdce188a4f52244780b6628507b'
          'b22626eb5cbb35ac974297fab50a69b8'
          'a32129ce3b47785083a62cd5c2ab1031'
          '2f617b523fd38dd0b71547dd323c7c14'
-         '7d740decd01a38867cb91b00368cc63b'
+         '55c50c0d1d1185e4fd789ff11c0cdf13'
          '7be68003f3b5cad91270d33eb09338df'
          '31df02dc75b2e280aee57c1b46de2389'
          '2a30d6e4525f3f87dab55ea2116f8a32'

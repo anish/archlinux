@@ -2,7 +2,7 @@
 
 pkgname='pipelight'
 pkgver=0.2.1
-pkgrel=1
+pkgrel=2
 epoch=1
 pkgdesc="A browser plugin which allows one to use windows only plugins inside Linux browser"
 url="https://launchpad.net/pipelight"
@@ -98,8 +98,8 @@ package() {
 #   install -Dm644 l*.dll ${pkgdir}/$_prefix/share/pipelight/.
     install -Dm644 pluginloader.exe ${pkgdir}/$_prefix/share/pipelight/.
   fi
-  pushd ${pkgdir}/$_prefix/lib/pipelight
-  cp libpipelight.so libpipelight-silverlight5.1.so
+  pushd ${pkgdir}/$_prefix/bin
+    ./pipelight-plugin --destdir=${pkgdir}/ --create-mozilla-plugins
   popd
   install -dm755 ${pkgdir}/lib/mozilla/plugins/.
   ln -s $_prefix/lib/pipelight/libpipelight-silverlight5.1.so ${pkgdir}/lib/mozilla/plugins/libpipelight-silverlight5.1.so

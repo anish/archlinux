@@ -9,7 +9,7 @@ url="https://launchpad.net/pipelight"
 arch=('i686' 'x86_64')
 license=('GPL2' 'LGPL2.1' 'MPL')
 
-depends=('wine-silverlight>=1.7.11-1' 'wine-browser-installer>=1-7' 'ttf-ms-fonts' 'wget')
+depends=('wine-silverlight>=1.7.11-1' 'ttf-ms-fonts' 'wget')
 if  [[ "$CARCH" == "x86_64" ]]; then
   depends+=('lib32-libsm' 'lib32-libgl')
 else

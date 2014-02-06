@@ -6,7 +6,7 @@
 
 pkgname=nvidia-beta-dkms
 pkgver=331.38
-pkgrel=2
+pkgrel=3
 pkgdesc="NVIDIA kernel module sources (DKMS) - BETA version"
 arch=('i686' 'x86_64')
 [[ $CARCH == i686 ]] && _arch=x86 && _pkg=NVIDIA-Linux-${_arch}-${pkgver} && md5sums=('16aa229f7f118c8cafad6fb3f4ac082e')

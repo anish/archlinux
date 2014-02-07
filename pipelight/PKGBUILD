@@ -56,7 +56,7 @@ prepare() {
 
   #The next two lines can't be used if you want to compile your own pluginloader.exe
   if [[ $_compilepluginloader == 0 ]]; then
-    sed -i '1s| src/windows||g' Makefile
+  #  sed -i '1s| src/windows||g' Makefile
     sed -i '42d' Makefile
   fi
 
@@ -80,7 +80,11 @@ prepare() {
 
 build() {
   pushd $_srcdir
-  ./configure --prefix=$_prefix --wine-path=$_wine/bin/wine --win32-static
+  if [[ $_compilepluginloader == 0 ]]; then
+    ./configure --prefix=$_prefix --wine-path=$_wine/bin/wine --win32-prebuilt
+  else
+    ./configure --prefix=$_prefix --wine-path=$_wine/bin/wine --win32-static
+  fi
   make
   popd
 }

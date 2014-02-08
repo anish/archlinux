@@ -6,7 +6,7 @@
 
 pkgname=nvidia-beta-dkms
 pkgver=334.16
-pkgrel=1
+pkgrel=2
 pkgdesc="NVIDIA kernel module sources (DKMS) - BETA version"
 arch=('i686' 'x86_64')
 [[ $CARCH == i686 ]] && _arch=x86 && _pkg=NVIDIA-Linux-${_arch}-${pkgver} && md5sums=('2503a9ce1c17154099b2bfbdde86caf7')
@@ -32,7 +32,7 @@ prepare() {
   fi
   sh ${_pkg}.run --extract-only
   pushd ${_pkg}/kernel
-  #patch -Np2 -i "${srcdir}"/nvidia-3.14.patch
+  patch -Np2 -i "${srcdir}"/nvidia-3.14.patch
   cat uvm/dkms.conf.fragment >> dkms.conf
   popd
   popd
@@ -54,3 +54,5 @@ package() {
 }
 
 # vim: ts=2 sw=2 et:
+md5sums=('54be06165c88cda2235c2c7eee7a2575'
+         'dac1f05e539835955bc270d943bfdc5b')

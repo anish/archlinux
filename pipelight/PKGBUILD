@@ -2,7 +2,7 @@
 
 pkgname='pipelight'
 pkgver=0.2.5
-pkgrel=1
+pkgrel=2
 epoch=1
 pkgdesc="A browser plugin which allows one to use windows only plugins inside Linux browser"
 url="https://launchpad.net/pipelight"
@@ -95,7 +95,7 @@ package() {
   if [[ $_compilepluginloader  == 0 ]]; then
 #   As of v0.2.1, pluginloader is always statically compiled, no longer needed
 #   install -Dm644 l*.dll ${pkgdir}/$_prefix/share/pipelight/.
-    install -Dm644 pluginloader.exe ${pkgdir}/$_prefix/share/pipelight/.
+    install -Dm644 src/windows/pluginloader.exe ${pkgdir}/$_prefix/share/pipelight/.
   fi
 # All plugin creation has now been moved to pipelight.install
 

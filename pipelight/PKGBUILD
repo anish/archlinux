@@ -10,7 +10,7 @@ arch=('i686' 'x86_64')
 license=('GPL2' 'LGPL2.1' 'MPL')
 
 # wine-compholio is provided for example by wine-silverlight
-depends=('wine-compholio' 'ttf-ms-fonts' 'wget')
+depends=('wine-compholio' 'ttf-ms-fonts' 'wget' 'cabextract' 'unzip' 'gnupg')
 if  [[ "$CARCH" == "x86_64" ]]; then
   depends+=('lib32-libsm' 'lib32-libgl')
 else

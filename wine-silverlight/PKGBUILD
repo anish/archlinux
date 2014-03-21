@@ -304,10 +304,6 @@ fi
 build() {
   cd "$srcdir"
 
-  # ncurses fix
-  sed -i 's|libncurses|libncursesw|g' "$srcdir/$_upname/configure"
-  sed -i 's|lncurses|lncursesw|g' "$srcdir/$_upname/configure" 
-
   # Get rid of old build dirs
   rm -rf $pkgname-{32,64}-build
   mkdir $pkgname-32-build
@@ -389,6 +385,10 @@ build() {
 
   ./tools/make_requests
   autoreconf
+
+  # ncurses fix
+  sed -i 's|libncurses|libncursesw|g' "$srcdir/$_upname/configure"
+  sed -i 's|lncurses|lncursesw|g' "$srcdir/$_upname/configure" 
 
   cd "$srcdir"
 

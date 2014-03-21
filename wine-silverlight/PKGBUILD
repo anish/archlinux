@@ -5,7 +5,7 @@
 
 pkgname=wine-silverlight
 pkgver=1.7.14
-pkgrel=1
+pkgrel=2
 pkgdesc="WINE patched with Microsoft Silverlight and Netflix compatibility."
 url="http://www.winehq.com"
 license=('LGPL2.1')
@@ -291,19 +291,18 @@ _upname="wine-${pkgver}"
 if [[ $customprefix != 1 ]]; then
   _prefix="usr"
   _sysconf="etc"
-  conflicts=('wine')
-  provides=('wine=${pkgver}')
+  conflicts=('wine' 'wine-compholio')
+  provides=('wine=${pkgver}' 'wine-compholio=${pkgver}')
 else
   # change _prefix if you don't want to use the default custom prefix of /opt/wine-silverlight
   _prefix="opt/$pkgname"
   _sysconf="$_prefix/etc"
+  conflicts=('wine-compholio')
+  provides=('wine-compholio=${pkgver}')
 fi
 
 build() {
   cd "$srcdir"
-
-
-
 
   # ncurses fix
   sed -i 's|libncurses|libncursesw|g' "$srcdir/$_upname/configure"
@@ -457,6 +456,14 @@ if [[ $customprefix != 1 ]]; then
   install -m644 "$srcdir/30-win32-aliases.conf" "$pkgdir/etc/fonts/conf.avail"
   ln -s ../conf.avail/30-win32-aliases.conf "$pkgdir/etc/fonts/conf.d/30-win32-aliases.conf"
 fi
+
+  # Provide symlinks in /opt/wine-compholio/bin
+  if [[ "$_prefix" != "opt/wine-compholio" ]]; then
+    mkdir -p "$pkgdir/opt/wine-compholio/bin"
+    for _file in $(ls "$pkgdir/$_prefix/bin"); do \
+      ln -s "$_prefix/bin/$_file" "$pkgdir/opt/wine-compholio/bin/$_file"; \
+    done
+  fi
 
 }
 # vim:set ts=2 sw=2 tw=0 et:

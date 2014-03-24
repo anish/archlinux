@@ -313,7 +313,7 @@ prepare() {
   mkdir $pkgname-32-build
 
   # These additional CPPFLAGS solve FS#27662 and FS#34195
-  #export CFLAGS="$CFLAGS -DHAVE_ATTR_XATTR_H=1"
+  export CFLAGS="$CFLAGS -DHAVE_ATTR_XATTR_H=1"
   export CPPFLAGS="${CPPFLAGS/-D_FORTIFY_SOURCE=2/} -D_FORTIFY_SOURCE=0"
 
   #export MAKEFLAGS="-j4"

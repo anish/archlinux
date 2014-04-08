@@ -2,7 +2,7 @@
 
 pkgname='pipelight'
 pkgver=0.2.6
-pkgrel=1
+pkgrel=2
 epoch=1
 pkgdesc="A browser plugin which allows one to use windows only plugins inside Linux browser"
 url="https://launchpad.net/pipelight"
@@ -35,11 +35,11 @@ makedepends+=('cabextract' 'xz')
 #source=("https://bitbucket.org/mmueller2012/pipelight/get/v${pkgver%.*}-${pkgver##*.}.tar.bz2"
 #  "https://launchpad.net/pipelight/trunk/0.1/+download/pluginloader-prebuilt-v${pkgver%.*}-${pkgver##*.}.tar.gz")
 source=("https://bitbucket.org/mmueller2012/pipelight/get/v${pkgver}.tar.bz2"
-  "http://repos.fds-team.de/pluginloader/v${pkgver}/pluginloader.tar.gz")
+  "pluginloader-${pkgver}.tar.gz::http://repos.fds-team.de/pluginloader/v${pkgver}/pluginloader.tar.gz")
 noextract=("pluginloader.tar.gz")
 
 md5sums=('265747e08a3b2dd806c47a228f03df5b'
-         '029be1ca83633ffa87ef96e6fcf5f9c5')
+         '5931da0500aed46f875b28cec2160cfe')
 
 install=pipelight.install
 
@@ -55,7 +55,7 @@ prepare() {
   pushd $_srcdir
 
   if [[ $_compilepluginloader == 0 ]]; then
-    tar xvzf ../pluginloader.tar.gz
+    tar xvzf ../pluginloader-${pkgver}.tar.gz
   fi
 
   pushd share/

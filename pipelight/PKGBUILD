@@ -43,7 +43,7 @@ md5sums=('0c7301fe64546af9edbdaa65feb32520'
 
 install=pipelight.install
 
-_srcdir=mmueller2012-pipelight-487f8db5a03d
+_srcdir=mmueller2012-pipelight-b5786f6d4401
 
 #this changes the install location for the pipelight executables
 _prefix=/usr

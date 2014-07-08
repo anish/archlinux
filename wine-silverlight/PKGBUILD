@@ -5,7 +5,7 @@
 
 pkgname=wine-silverlight
 pkgver=1.7.21
-pkgrel=2
+pkgrel=3
 pkgdesc="WINE patched for windows NPAPI plugin compatibility"
 url="http://www.winehq.com"
 license=('LGPL2.1')
@@ -189,7 +189,7 @@ prepare() {
   cd "$srcdir"/"${_upname}"
 
   #use upstream Makefile to apply patches
-  make -C "$srcdir/wine-compholio-daily-${pkgver}/patches/" DESTDIR="$srcdir/${_upname}" install
+  make -C "$srcdir/wine-compholio-${pkgver}/patches/" DESTDIR="$srcdir/${_upname}" install
 
   ./tools/make_requests
   autoreconf

@@ -215,7 +215,8 @@ build() {
       --with-x \
       --with-xattr \
       --without-gstreamer \
-      --enable-win64
+      --enable-win64 \
+      --disable-tests
     # Gstreamer was disabled for FS#33655
     make depend
     make
@@ -236,6 +237,7 @@ build() {
     --with-x \
     --with-xattr \
     --without-gstreamer \
+    --disable-tests \
     "${_wine32opts[@]}"
 
   # These additional flags solve FS#23277

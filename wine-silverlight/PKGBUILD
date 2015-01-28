@@ -13,15 +13,21 @@ arch=('x86_64' 'i686')
 options=(staticlibs !ccache)
 install=wine-silverlight.install
 
+# Change based on whether you are interested in experimental d3d9 support
+enable_d3d9_support=0
+
 # source=(http://prdownloads.sourceforge.net/wine/wine-${pkgver}.tar.bz2{,.sign}
 source=(http://prdownloads.sourceforge.net/wine/wine-${pkgver}.tar.bz2
         "https://github.com/wine-compholio/wine-staging/archive/v${pkgver}.tar.gz"
+        "https://github.com/NP-Hardass/wine-d3d9-patches/archive/wine-d3d9-${pkgver}.tar.gz"
         "30-win32-aliases.conf")
 
 md5sums=('c33d5f3187218ef53e233da3b5cccc80'
 #         'SKIP'
          '41bc21247e5a4f4f3c68667fd9d489fa'
+         '0acfa3e58067acd7d49b7df60467b023'
          '1ff4e467f59409272088d92173a0f801')
+
 #validpgpkeys=(5AC1A08B03BD7A313E0A955AF5E6E9EEB9461DD7) # Alexandre Julliard
 
 depends=('fontconfig'
@@ -186,22 +192,33 @@ prepare() {
   export CFLAGS="$CFLAGS -DHAVE_ATTR_XATTR_H=1"
   export CPPFLAGS="${CPPFLAGS/-D_FORTIFY_SOURCE=2/} -D_FORTIFY_SOURCE=0"
 
-  #export MAKEFLAGS="-j4"
-
   cd "$srcdir"/"${_upname}"
 
   # use upstream Makefile to apply patches and to call make_requests / autoreconf
-  make -C "$srcdir/wine-staging-${pkgver}/patches/" DESTDIR="$srcdir/${_upname}" install
+  # make -C "$srcdir/wine-staging-${pkgver}/patches/" DESTDIR="$srcdir/${_upname}" install
+  # patchinstall.sh is the updated way to call above command
+  $srcdir/wine-staging-${pkgver}/patches/patchinstall.sh DESTDIR="$srcdir/${_upname}" --all
+
+  if [[ $enable_d3d9_support != 0 ]]; then
+    patch -p1 < "$srcdir/wine-d3d9-patches-wine-d3d9-${pkgver}/wine-d3d9.patch"
+  fi
 }
 
 build() {
-  cd "$srcdir"
+
+  if [[ $enable_d3d9_support != 0 ]]; then
+    d3d9_config="--with-d3dadapter"
+  else
+    d3d9_config="--without-d3dadapter"
+  fi
+
+  pushd "$srcdir"
 
   if [[ $CARCH == x86_64 ]]; then
 
     msg2 "Building Wine-64..."
     mkdir $pkgname-64-build
-    cd "$srcdir/$pkgname-64-build"
+    pushd "$srcdir/$pkgname-64-build"
     ../$_upname/configure \
       --prefix=$_prefix \
       --sysconfdir=$_sysconf \
@@ -210,7 +227,8 @@ build() {
       --with-xattr \
       --without-gstreamer \
       --enable-win64 \
-      --disable-tests
+      --disable-tests \
+      ${d3d9_config}
     # Gstreamer was disabled for FS#33655
     make
 
@@ -220,10 +238,11 @@ build() {
     )
 
     export PKG_CONFIG_PATH="$_prefix/lib32/pkgconfig"
+    popd
   fi
 
   msg2 "Building Wine-32..."
-  cd "$srcdir/$pkgname-32-build"
+  pushd "$srcdir/$pkgname-32-build"
   ../$_upname/configure \
     --prefix=$_prefix \
     --sysconfdir=$_sysconf \
@@ -231,10 +250,13 @@ build() {
     --with-xattr \
     --without-gstreamer \
     --disable-tests \
-    "${_wine32opts[@]}"
+    "${_wine32opts[@]}" \
+    ${d3d9_config}
 
   # These additional flags solve FS#23277
   make CFLAGS+="-mstackrealign -mincoming-stack-boundary=2" CXXFLAGS+="-mstackrealign -mincoming-stack-boundary=2"
+  popd
+  popd
 }
 
 package() {

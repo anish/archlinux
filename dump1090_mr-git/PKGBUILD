@@ -10,6 +10,8 @@ arch=('i686' 'x86_64' 'armv6h' 'armv7h')
 url="https://github.com/flightaware/dump1090_mr"
 license=('BSD')
 depends=('rtl-sdr')
+conflicts=('dump1090')
+provides=('dump1090')
 makedepends=('git')
 source=('dump1090_mr::git+git://github.com/flightaware/dump1090_mr'
 	'dump1090.service')
@@ -39,7 +41,7 @@ package() {
   install -D -m755 "${srcdir}/${_gitname}/dump1090" "${pkgdir}/usr/bin/dump1090"
   install -D -m755 "${srcdir}/${_gitname}/view1090" "${pkgdir}/usr/bin/view1090"
   install -D -m755 "${srcdir}/${_gitname}/faup1090" "${pkgdir}/usr/bin/faup1090"
-  install -D -m775 dump1090.service "${pkgdir}/usr/lib/systemd/dump1090.service"
+  install -D -m775 dump1090.service "${pkgdir}/usr/lib/systemd/system/dump1090.service"
 
   mkdir -p "${pkgdir}/usr/share"
   cp -r "${srcdir}/${_gitname}/public_html/" "${pkgdir}/usr/share/${_gitname}/"

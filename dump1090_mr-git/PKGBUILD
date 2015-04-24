@@ -1,4 +1,5 @@
-# Maintainer: anish [ at ] gatech [dot] edu
+# Contributor : anish [ at ] gatech [dot] edu
+# Maintainer  : anish [ at ] gatech [dot] edu
 
 pkgname=dump1090_mr-git
 _gitname=dump1090_mr
